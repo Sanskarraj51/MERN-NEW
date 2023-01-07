@@ -14,9 +14,9 @@ function Login() {
       email: email,
       password: password,
     };
-    axios   // axios call
-
-      .post("http://localhost:4000/user/login", data) 
+    // axios call
+    axios
+      .post("http://localhost:4000/user/login", data)
       .then((res) => {
         console.log(res);
         localStorage.clear();
@@ -28,7 +28,7 @@ function Login() {
       });
   }
   return (
-    <div className=" w-screen h-screen flex  justify-center items-center">
+    <div className="w-screen h-[80vh] flex  justify-center items-center">
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col  w-[50%]  space-y-4  "

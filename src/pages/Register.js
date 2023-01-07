@@ -29,7 +29,7 @@ function Register() {
       });
   }
   return (
-    <div className=" w-screen h-screen flex  justify-center items-center">
+    <div className=" w-screen h-[80vh] flex  justify-center items-center">
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col  w-[50%]  space-y-4  "
