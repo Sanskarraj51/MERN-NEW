@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 
-const MongoUrl = "mongodb+srv://sanskarr:1234wethesingh@rooms.ppih7.mongodb.net/?retryWrites=true&w=majority"
+const MongoUrl = "mongodb+srv://sanskarr:password@rooms.ppih7.mongodb.net/?retryWrites=true&w=majority"
 
 
 const InitiateMongoServer = async ()=>{
