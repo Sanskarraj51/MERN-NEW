@@ -1,6 +1,7 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
+// inputRef={ref}
 const RHFInput = ({ name, ...other }) => {
   const { control } = useFormContext();
 
@@ -13,6 +14,7 @@ const RHFInput = ({ name, ...other }) => {
           <input
             {...field}
             {...other}
+            ref={null}
             placeholder="Enter Your Password"
             className=" border border-zinc-400 outline-none  px-6 py-2 text-black "
           />

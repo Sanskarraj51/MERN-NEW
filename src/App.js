@@ -6,6 +6,7 @@ import Navbar from "./pages/Navbar";
 import Register from "./pages/Register";
 import Success from "./pages/Success";
 import PrivateRoute from "./PrivateRoute";
+import DyanamicUsersForm from "./pages/DyanamicUsersForm";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<DyanamicUsersForm />} />
+        <Route path="/multiple" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
         <Route path="/" element={<PrivateRoute />}>
