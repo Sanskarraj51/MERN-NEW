@@ -6,8 +6,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import RHFInput from "../components/RHFInput";
+import {
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 
 let defaultValues = {
+  type: "email",
+  type2: "email",
   name: "",
   email: "",
   password: "",
@@ -17,8 +26,9 @@ const regexPass =
   "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
 
 const schema = yup.object({
+  type: yup.string(),
+  type2: yup.string(),
   name: yup.string().required("Name is required"),
-  email: yup.string().email().required("Email is required"),
   password: yup
     .string()
     .required("Password is required")
@@ -26,6 +36,14 @@ const schema = yup.object({
       regexPass,
       "Password must contain small case,uppeercase,symbol,and number"
     ),
+  email: yup.string().when(["type", "type2"], {
+    is: (type, type2) => type === "email" && type2 === "email",
+    then: () => yup.string().email().required("Email is required"),
+  }),
+  mobile: yup.string().when("type", {
+    is: "mobile",
+    then: () => yup.string().email().required("Mobile is required"),
+  }),
 });
 
 function DyanamicUsersForm() {
@@ -44,7 +62,7 @@ function DyanamicUsersForm() {
     control,
     watch,
     setFocus,
-
+    setValue,
     formState: { errors },
   } = methods;
 
@@ -72,12 +90,12 @@ function DyanamicUsersForm() {
   }
 
   useEffect(() => {
-    const firstError = Object.keys(errors).reduce(
-      (accumulator, currentValue) => {
-        return !!errors[accumulator] ? accumulator : currentValue;
-      },
-      null
-    );
+    let erroArray = Object.keys(errors);
+    if (!erroArray?.length) return;
+    const firstError = erroArray[0];
+    if (firstError) {
+      setFocus(firstError);
+    }
   }, [errors, setFocus]);
 
   return (
@@ -88,78 +106,51 @@ function DyanamicUsersForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-2   w-[50%] gap-5 "
       >
+        <div className="col-span-2 ">
+          <FormControl>
+            <FormLabel id="demo-controlled-radio-buttons-group">
+              Signup With
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="demo-controlled-radio-buttons-group"
+              name="controlled-radio-buttons-group"
+              value={watch("type")}
+              row
+              onChange={(event) => {
+                setValue("type", event.target.value);
+              }}
+            >
+              <FormControlLabel
+                value="email"
+                control={<Radio />}
+                label="Email"
+              />
+              <FormControlLabel
+                value="mobile"
+                control={<Radio />}
+                label="Mobile"
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
         <div className="flex flex-col ">
           <label className="text-xl ">User Name</label>
-
           <RHFInput name="name" />
         </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">Email</label>
-          <RHFInput name="email" type="email" />
-        </div>
+        {watch("type") === "email" ? (
+          <div className="flex flex-col ">
+            <label className="text-xl ">Email</label>
+            <RHFInput name="email" type="email" />
+          </div>
+        ) : (
+          <div className="flex flex-col ">
+            <label className="text-xl ">Mobile</label>
+            <RHFInput name="mobile" type="number" />
+          </div>
+        )}
         <div className="flex flex-col ">
           <label className="text-xl ">Password</label>
           <RHFInput name="password" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">Area</label>
-          <RHFInput name="address.area" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">City</label>
-          <RHFInput name="address.city" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
-        </div>
-        <div className="flex flex-col ">
-          <label className="text-xl ">State</label>
-          <RHFInput name="address.state" />
         </div>
         <button
           type="submit"
